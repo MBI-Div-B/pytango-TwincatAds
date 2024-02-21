@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ASCII"?>
+<pogoDsl:PogoSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pogoDsl="http://www.esrf.fr/tango/pogo/PogoDsl">
+  <classes name="TwincatAds" pogoRevision="9.6">
+    <description description="Read and write TwinCAT variables via pyADS" title="TwincatAds" sourcePath="/home/mschneid/Documents/src/pytango-BeckhoffADS" language="PythonHL" filestogenerate="XMI   file,Code files,Protected Regions" license="MIT" copyright="" hasMandatoryProperty="false" hasConcreteProperty="true" hasAbstractCommand="false" hasAbstractAttribute="false">
+      <inheritances classname="Device_Impl" sourcePath=""/>
+      <identification contact="at mbi-berlin.de - tango" author="tango" emailDomain="mbi-berlin.de" classFamily="InputOutput" siteSpecific="" platform="All Platforms" bus="Ethernet" manufacturer="" reference=""/>
+    </description>
+    <deviceProperties name="ams_netid" description="AMS NetID for an established route. Examples:&#xA;`127.0.0.1.1.1`,  `5.12.82.20.1.1`">
+      <type xsi:type="pogoDsl:StringType"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </deviceProperties>
+    <deviceProperties name="ams_port" description="Port to use for ADS connection.&#xA;Typically 801 for TwinCAT2 and 851 for TwinCAT3">
+      <type xsi:type="pogoDsl:IntType"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </deviceProperties>
+    <deviceProperties name="scalar_symbols" description="List of ADS symbols.&#xA;Dynamic attributes are created for each entry on device start.&#xA;Write each symbol description as a comma-separated line:&#xA;&lt;ads_name>, &lt;label>, &lt;dtype>,&lt;access>&#xA;Example:&#xA;MAIN.subroutine.bOutputActive, output, bool,rw&#xA;&#xA;Use python type names for &lt;dtype> (int, float, str)&#xA;&lt;access> is either ``rw`` or ``ro``">
+      <type xsi:type="pogoDsl:StringType"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+      <DefaultPropValue>MAIN.subroutine.bOutputActive, output, bool, ro</DefaultPropValue>
+    </deviceProperties>
+    <commands name="State" description="This command gets the device state (stored in its device_state data member) and returns it to the caller." execMethod="dev_state" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="none">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argin>
+      <argout description="Device state">
+        <type xsi:type="pogoDsl:StateType"/>
+      </argout>
+      <status abstract="true" inherited="true" concrete="true"/>
+    </commands>
+    <commands name="Status" description="This command gets the device status (stored in its device_status data member) and returns it to the caller." execMethod="dev_status" displayLevel="OPERATOR" polledPeriod="0">
+      <argin description="none">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argin>
+      <argout description="Device status">
+        <type xsi:type="pogoDsl:ConstStringType"/>
+      </argout>
+      <status abstract="true" inherited="true" concrete="true"/>
+    </commands>
+    <commands name="read_float_array" description="Read array of float values. Returns entire array if &lt;num> is negative" execMethod="read_float_array" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+      <argin description="Number of array values to read and ADS symbol name.&#xA;[&lt;num>, ] [&lt;name>, ]&#xA;Example: [200, ] [``MAIN.array1``, ]">
+        <type xsi:type="pogoDsl:LongStringArrayType"/>
+      </argin>
+      <argout description="array of float values">
+        <type xsi:type="pogoDsl:FloatArrayType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <preferences docHome="./doc_html" makefileHome="/usr/share/pogo/preferences"/>
+  </classes>
+</pogoDsl:PogoSystem>
