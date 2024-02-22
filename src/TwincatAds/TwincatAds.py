@@ -53,7 +53,7 @@ class TwincatAds(Device):
             - Type:'DevString'
     """
     # PROTECTED REGION ID(TwincatAds.class_variable) ENABLED START #
-    symbols = {}
+    _symbols = {}
     # PROTECTED REGION END #    //  TwincatAds.class_variable
 
     # -----------------
@@ -93,7 +93,7 @@ class TwincatAds(Device):
             name, label, access = [s.strip() for s in line.split(',')]
             print(f"init: {name}, {label}, {access}", file=self.log_debug)
             symbol = self.plc.get_symbol(name)
-            self.symbols[label] = symbol
+            self._symbols[label] = symbol
             size = symbol.array_size
             if size > 1:
                 print(f"{name} is not a scalar. Ignoring.", file=self.log_warning)
@@ -110,12 +110,12 @@ class TwincatAds(Device):
     
     def generic_read(self, attr):
         name = attr.get_name()
-        return self.symbols[name].read()
+        return self._symbols[name].read()
     
     def generic_write(self, attr):
         name = attr.get_name()
         value = attr.get_write_value()
-        self.symbols[name].write(value)
+        self._symbols[name].write(value)
         
         # PROTECTED REGION END #    //  TwincatAds.init_device
 
