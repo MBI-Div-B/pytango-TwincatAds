@@ -38,7 +38,7 @@ class TwincatAds(Device):
 
     - Device Property
         ams_netid
-            - AMS NetID for an established route. Examples:\n`127.0.0.1.1.1`,  `5.12.82.20.1.1`
+            - AMS NetID for an established route. Examples: `127.0.0.1.1.1`,  `5.12.82.20.1.1`
             - Type:'DevString'
         ams_port
             - Port to use for ADS connection.\nTypically 801 for TwinCAT2 and 851 for TwinCAT3
@@ -96,7 +96,8 @@ class TwincatAds(Device):
             self.symbols[label] = symbol
             size = symbol.array_size
             if size > 1:
-                raise RuntimeError(f"{name} is not a scalar.")
+                print(f"{name} is not a scalar. Ignoring.", file=self.log_warning)
+                continue
             value = symbol.read()
             attr = attribute(
                 name=label,
