@@ -132,7 +132,7 @@ class TwincatAds(Device):
         destructor and by the device Init command.
         """
         # PROTECTED REGION ID(TwincatAds.delete_device) ENABLED START #
-        # self.plc.close()
+        self.plc.close()
         # PROTECTED REGION END #    //  TwincatAds.delete_device
     # --------
     # Commands
