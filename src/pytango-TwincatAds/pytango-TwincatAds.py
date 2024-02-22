@@ -5,7 +5,7 @@
 #
 #
 # Distributed under the terms of the MIT license.
-# See LICENSE.txt for more info.
+# See LICENSE for more info.
 
 """ TwincatAds
 
