@@ -60,17 +60,30 @@ class TwincatAds(Device):
     # Device Properties
     # -----------------
 
-    ams_netid = device_property(
-        dtype='DevString',
+    ams_netid: str = device_property(
+        doc="AMS NetID of the PLC to connect to. Example: '5.12.82.20.1.1'.",
+        default_value="127.0.0.1.1.1",
     )
 
-    ams_port = device_property(
+    local_netid: str = device_property(
+        doc="AMS NetID of the local machine. Example: '1.2.3.4.1.1'.",
+        default_value="1.2.3.4.1.1",
+    )
+
+    plc_ip: str = device_property(
+        doc="IP address of the PLC",
+        default_value="192.168.0.10",
+    )
+
+    ams_port: int = device_property(
         dtype='DevLong',
+        default_value=851,
     )
 
     scalar_symbols = device_property(
+        doc="<plc_variable>, <tango_attribute_name>, ro|rw",
         dtype=(str,),
-        default_value="MAIN.subroutine.bOutputActive, output, ro"
+        default_value="MAIN.subroutine.bOutputActive, output, ro",
     )
 
     # ---------------
@@ -82,7 +95,8 @@ class TwincatAds(Device):
         Device.init_device(self)
         # PROTECTED REGION ID(TwincatAds.init_device) ENABLED START #
         
-        self.plc = pyads.Connection(self.ams_netid, self.ams_port)
+        pyads.set_local_address(self.local_netid)
+        self.plc = pyads.Connection(self.ams_netid, self.ams_port, self.plc_ip)
         self.plc.open()
         ads_state, machine_state = self.plc.read_state()
         print(f"states: ads: {ads_state}, machine: {machine_state}", file=self.log_debug)
